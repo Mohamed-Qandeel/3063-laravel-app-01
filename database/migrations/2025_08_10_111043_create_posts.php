@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -13,9 +14,9 @@ return new class extends Migration {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('body');
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('post_status_id')->unsigned();
+            $table->text('body')->nullable()->comment('Content of the post');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('post_status_id')->constrained('post_statuses')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
